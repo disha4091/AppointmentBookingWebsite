@@ -1,6 +1,8 @@
-import mongoose, { model } from 'mongoose';
+const {model, Schema} = require('mongoose');
+//const model = require('mongoose');
 
-const doctorSchema = new mongoose.Schema({
+
+const doctorSchema = new Schema({
     name: String,
     email: String,
     password: String,

@@ -1,15 +1,19 @@
-import express from 'express';
-import bodyParser from "body-parser"
-import mongoose from "mongoose"
-import cors from "cors"
-import url from './config';
-const app = express()
+const express = require('express');
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+const cors = require("cors");
+const url = require('./config');
+const app = express();
+const doctorRouter = require('./routes/doctors');
 
 app.use(bodyParser.json({limit:"30mb", extended: true})) ;
 app.use(bodyParser.urlencoded({limit:"30mb", extended: true})) ;
 app.use(cors());
 
 const CONNECTION_URL = url.MONGODB ;
+
+app.use(express.json());
+app.use('/api/doctors', doctorRouter);
 
 const PORT = process.env.PORT || 5000;
 
