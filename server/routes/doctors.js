@@ -7,6 +7,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const Doctor = require("../models/doctorProfile");
+const Appointment = require("../models/appointment");
 const checkAuthDoctor = require("../controllers/checkAuthDoctor") ;
 // @route   Post api/user
 // @desc    Register USer
@@ -117,7 +118,23 @@ router.post("/loginDoctor", (req, res) => {
 
 router.get("/getDoctorname", checkAuthDoctor, (req,res)=>{
   res.json({isLoggedIn:true,name:req.doctor.name, age:req.doctor.age, email:req.doctor.email, education:req.doctor.education, specializations:req.doctor.specializations, experience:req.doctor.experience, clinicDetails:req.doctor.clinicDetails})
-})
+});
+
+router.post("/createAppointment/:doctorId", 
+  async (req, res) => {
+    let id = req.params.doctorId
+    const appointment = new Appointment({
+      doctorId:  req.params.doctorId,
+      time: req.body.time
+    });
+    await appointment.save();
+    res.json({
+      status: "success",
+      appointment
+    })
+  }
+)
+
 module.exports = router;
 
 

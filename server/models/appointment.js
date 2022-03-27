@@ -1,10 +1,13 @@
 const {model, Schema} = require('mongoose');
 
 const appointmentSchema = new Schema({
-    patientId: String,
-    doctorId: String,
-    time:String,
-    
+    patientId: Schema.Types.ObjectId,
+    doctorId: Schema.Types.ObjectId,
+    time: String,
+    date: {
+        type: Date,
+        default: Date.now
+    }   
 
 })
 
