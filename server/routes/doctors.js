@@ -120,11 +120,12 @@ router.get("/getDoctorname", checkAuthDoctor, (req,res)=>{
   res.json({isLoggedIn:true,name:req.doctor.name, age:req.doctor.age, email:req.doctor.email, education:req.doctor.education, specializations:req.doctor.specializations, experience:req.doctor.experience, clinicDetails:req.doctor.clinicDetails})
 });
 
-router.post("/createAppointment/:doctorId", 
+router.post("/createAppointment",checkAuthDoctor, 
   async (req, res) => {
     let id = req.params.doctorId
+    console.log(req.doctor.id);
     const appointment = new Appointment({
-      doctorId:  req.params.doctorId,
+      doctorId:  req.doctor.id,
       time: req.body.time
     });
     await appointment.save();
