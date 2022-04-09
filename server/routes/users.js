@@ -6,6 +6,7 @@ var validationResult = require('express-validator');
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+const Appointment = require("../models/appointment");
 const User = require("../models/userProfile");
 const checkAuth = require("../controllers/checkAuth") ;
 // @route   Post api/user
@@ -113,6 +114,40 @@ router.post("/loginUser", (req, res) => {
 router.get("/getUsername", checkAuth, (req,res)=>{
   res.json({isLoggedIn:true,name:req.user.name, age:req.user.age, email:req.user.email})
 })
+
+router.post('/bookAppointment/:app_id',checkAuth, 
+    (req, res) => {
+
+    
+    console.log(req.params.app_id);
+    Appointment.findOne({_id:req.params.app_id})
+    .then(async (appointment) => {
+      if(appointment) {
+        appointment.patientId = req.user.id;
+        appointment.description = req.body.description ;
+        appointment.isBooked = true ;
+        await appointment.save().then(appointment1 => {
+          res.json(' Updated Successfully');
+          })
+          .catch(err => {
+          res.status(400).send("Unable To Update ");
+          });
+
+        console.log(appointment);
+      }
+    })
+  //   Appointment.findOneAndUpdate({_id:req.params.app_id},{"name": "Dane"}, function(err, result){
+
+  //     if(err){
+  //         res.send(err)
+  //     }
+  //     else{
+  //         res.send(result)
+  //     }
+
+  // })
+  }
+)
 module.exports = router;
 
 //-------------------------------------------------------------------------------------------------------------------------------------------

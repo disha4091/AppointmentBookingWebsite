@@ -126,7 +126,8 @@ router.post("/createAppointment",checkAuthDoctor,
     console.log(req.doctor.id);
     const appointment = new Appointment({
       doctorId:  req.doctor.id,
-      time: req.body.time
+      time: req.body.time,
+      isBooked: false
     });
     await appointment.save();
     res.json({
@@ -140,4 +141,3 @@ module.exports = router;
 
 
 
-module.exports = router;
