@@ -37,7 +37,7 @@ router.post(
           .status(400)
           .json({ errors: [{ msg: "User already exists" }] });
       }
-      user = new User({
+      const newuser = new User({
         name,
         email,
         age,
@@ -48,18 +48,18 @@ router.post(
 
       const salt = await bcrypt.genSalt(10);
 
-      user.password = await bcrypt.hash(password, salt);
+      newuser.password = await bcrypt.hash(password, salt);
 
-      await user.save();
+      const resUser = await newuser.save();
 
       //Return jsonwebtoken
 
       const payload = {
         user: {
-          id: user.id,
-          name:user.name,
-          age:user.age,
-          email:user.email
+          id: resUser._id,
+          name:resUser.name,
+          age:resUser.age,
+          email:resUser.email
         },
       };
 
@@ -84,7 +84,7 @@ router.post("/loginUser", (req, res) => {
   .then((user) => {
     if(!user) {
       return res.json({
-        message:"Invalid information"
+        message:"Invalid username"
       })
     }
     bcrypt.compare(req.body.password,user.password)
@@ -101,14 +101,15 @@ router.post("/loginUser", (req, res) => {
           expiresIn: 360000
         },(err,token)=>{
           if(err) return res.json({message:"err"})
-          return res.json({ message:"Successful login", token:"Bearer " + token})
+          return res.json({ message:"Successful login", token:token})
         })
     }
     else{
-      return res.json({message:"Invalid username"})
+      return res.json({message:"Invalid password"})
     }}
     )
   })
+  
 })
 
 router.get("/getUsername", checkAuth, (req,res)=>{

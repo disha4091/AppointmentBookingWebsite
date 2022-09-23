@@ -1,0 +1,128 @@
+.loginForm{
+    
+    width: max-content;
+    margin: 0 auto;
+    margin-top: 5%;
+    background-image: linear-gradient(#f5f595,#bfe2c4);
+    padding: 5%;
+    border-radius: 6px;
+}
+
+.loginForm button, .link{
+    padding: 2.5%;
+    background-color: #59afc7;
+    border: none;
+    margin-bottom:5%;
+    margin-right: 8%;
+    left: 10%;
+}
+
+.loginForm .heading{
+    font-size: 25px;
+    margin-bottom: 5%;
+    font-weight: 500;
+    color: rgb(99, 101, 103);
+}
+
+.loginForm span{
+    color: rgb(99, 101, 103);
+    background-color: #d4e7d6;
+}
+
+.infocard{
+    margin-left: 6%;
+    margin-bottom: 6%;
+    border: 3px solid #9ecfdc ;
+    padding: 3%;
+    border-radius: 6px;
+    background-color: #e4eff2;
+}
+
+.heading1{
+    margin-top: 3%;
+    margin-bottom: 3%;
+    color: #566569;
+}
+.heading2{
+  
+    margin:2%;
+    color: #566569;
+    
+}
+.profile{
+    width: max-content;
+    margin: 0 auto;
+    margin-top: 5%;
+    background-image: linear-gradient(#f5f595,#bfe2c4);
+    padding: 5%;
+    border-radius: 6px;
+}
+
+.modalbtn{
+    width: max-content;
+    margin-left:5%;
+    margin-bottom: 3%;
+}
+
+.profileIcon{
+    width:10vw;
+    height: 10vw;
+    margin: 5%;
+    border: 3px solid rgb(121, 166, 121);
+    border-radius: 50%;
+     padding: 5%;
+}
+
+.gradient-background {
+    height: 100vh;
+     background: linear-gradient(62deg, #93ebda, #1fc960, #23A6D5, #1e747a);
+       animation: gradient 15s ease infinite; 
+        background-size: 400% 400%;
+    
+  }
+  @-webkit-keyframes gradient{
+    0% {
+      background-position: 0 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+       background-position: 0% 50%;
+    }
+  }
+  @keyframes gradient{
+    0% {
+      background-position: 0 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+       background-position: 0% 50%;
+    }
+  }
+
+  .homepageCon img{
+    margin: 10%;
+  }
+
+  .heading3{
+    margin: 10%;
+  }
+
+  .docIcon{
+    width:80%;
+    display: block;
+    margin-left: 10%;
+    margin-bottom: 10%;
+  }
+
+  .alert{
+    background-color:#d4e7d6;
+    width: max-content;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10%;
+    }

@@ -37,7 +37,7 @@ router.post(
           .status(400)
           .json({ errors: [{ msg: "Doctor already exists" }] });
       }
-      doctor = new Doctor({
+      const newdoctor = new Doctor({
 		name,email,password,age,education,specializations,experience,clinicDetails
       });
 
@@ -45,22 +45,22 @@ router.post(
 
       const salt = await bcrypt.genSalt(10);
 
-      doctor.password = await bcrypt.hash(password, salt);
+      newdoctor.password = await bcrypt.hash(password, salt);
 
-      await doctor.save();
+      const resDoctor = await newdoctor.save();
 
       //Return jsonwebtoken
 
       const payload = {
         doctor: {
-          id: doctor.id,
-          name:doctor.name,
-          age:doctor.age,
-          email:doctor.email,
-		  education:doctor.education,
-		  specializations:doctor.specializations,
-		  experience:doctor.experience,
-		  clinicDetails:doctor.clinicDetails,
+          id: resDoctor._id,
+          name:resDoctor.name,
+          age:resDoctor.age,
+          email:resDoctor.email,
+		      education:resDoctor.education,
+		      specializations:resDoctor.specializations,
+		      experience:resDoctor.experience,
+		      clinicDetails:resDoctor.clinicDetails,
         },
       };
 
@@ -106,7 +106,7 @@ router.post("/loginDoctor", (req, res) => {
           expiresIn: 360000
         },(err,token)=>{
           if(err) return res.json({message:"err"})
-          return res.json({ message:"Successful login", token:"Bearer " + token})
+          return res.json({ message:"Successful login", token:token})
         })
     }
     else{
@@ -122,8 +122,6 @@ router.get("/getDoctorname", checkAuthDoctor, (req,res)=>{
 
 router.post("/createAppointment",checkAuthDoctor, 
   async (req, res) => {
-    let id = req.params.doctorId
-    console.log(req.doctor.id);
     const appointment = new Appointment({
       doctorId:  req.doctor.id,
       time: req.body.time,
@@ -136,6 +134,61 @@ router.post("/createAppointment",checkAuthDoctor,
     })
   }
 )
+
+router.get("/listDoctors", (req, res) => {
+  Doctor.find()
+  .then((doctor) => {
+    if(!doctor) {
+      return res.json({
+        message:"No doctors available"
+      })
+    }
+   else{
+      return res.json(doctor)
+    }}
+    )
+  })
+
+
+router.get("/listAppointments",checkAuthDoctor, (req, res) => {
+    Appointment.find({doctorId : req.doctor.id})
+    .then((appointment) => {
+      if(!appointment) {
+        return res.json({
+          message:"No appointments"
+        })
+      }
+     else{
+        
+        return res.json(appointment)
+      
+        
+      }}
+      )
+    })
+  
+
+
+    router.get('/getAppointments/:doc_id', 
+    (req, res) => {
+
+    
+    //console.log(req.params.doc_id);
+    Appointment.find({doctorId:req.params.doc_id})
+    .then( (appointment) => {
+      if(appointment.length === 0) {
+        return res.json({
+          message:"No appointments"
+        })
+      }
+     else{
+        
+        return res.json(appointment)
+      
+        
+      }
+    })
+  })
 
 module.exports = router;
 

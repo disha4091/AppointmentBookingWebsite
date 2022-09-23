@@ -4,7 +4,8 @@ const jwt = require("jsonwebtoken");
 const Doctor = require("../models/doctorProfile");
 
 module.exports = function(req, res,next) {
-    const token = req.headers["authorization"]?.split(' ')[1]
+    const token = req.headers.token;
+    //console.log(token);
     if(!token) return res.status(401).json({message: 'No token'})
 
     try{
