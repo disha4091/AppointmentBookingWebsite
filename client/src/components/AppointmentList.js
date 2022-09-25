@@ -2,6 +2,7 @@ import React from 'react'
 import {useEffect, useState} from 'react' 
 import axios from 'axios';
 import { useNavigate, Link} from "react-router-dom";
+import UserInfo from './UserInfo';
 
 const AppointmentList = () => {
 
@@ -17,11 +18,17 @@ const AppointmentList = () => {
       })
       });
 
+
+    
       const navigate = useNavigate() ;
       const [appointment,setAppointment] = useState({
           time:"",
           
       })
+      const [user,setUser] = useState({
+        name:"",
+        
+    })
       const handleChange = e =>{
       const {name,value} = e.target
       setAppointment({
@@ -31,17 +38,24 @@ const AppointmentList = () => {
       }
   
       const createAppointment =()=>{
-        console.log(localStorage.getItem("token"));
          axios.post("http://localhost:5000/api/doctors/createAppointment",appointment,{ headers:{"token": localStorage.getItem("token")}})
           .then(res=>{
               alert(res.data.status);
       })
       }
 
+    const deleteAppointment = (app_id) =>{
+        console.log(app_id);
+        axios.post(`http://localhost:5000/api/doctors/deleteAppointment/${app_id}`)
+          .then(res=>{
+              alert(res.data.message);
+      })
+    }
+
   return (
-    <div className=''>
+    <div className='row'>
     
-    <h3 className='heading1'>Your Appointments</h3>
+    <h3 className='text-center heading1'>Your Appointments</h3>
     
     <button type="button" class="btn btn-primary modalbtn" data-bs-toggle="modal" data-bs-target="#exampleModal">
     Create Appointment
@@ -68,19 +82,21 @@ const AppointmentList = () => {
     </div>
 
 
-    <div className='row text-center'>
+    <div className='row'>
     {appointments.map(appointment => (  
 
-        <div className='col-sm-6 infocard'>
+        <div className='col-sm-3 infocard1' id={appointment.isBooked ? "booked" : "notbooked"}>
             <p>
             Time: {appointment.time}
             <br></br>
             {appointment.isBooked  &&
              <p>
-             Booked
-             <br></br>
-             {appointment.patientId}</p>}
+             <UserInfo patientId={appointment.patientId}/>
+             {
+                appointment.description && <p>Description: {appointment.description}</p>}</p>}
             {!appointment.isBooked  && <p>Not Booked</p>}
+
+            <button onClick={()=>deleteAppointment(appointment._id)}>Delete</button>
             
            </p>
         </div>  

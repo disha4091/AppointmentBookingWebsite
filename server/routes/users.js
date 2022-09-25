@@ -112,6 +112,22 @@ router.post("/loginUser", (req, res) => {
   
 })
 
+router.get("/getName/:userId", (req, res) => {
+  User.findById(req.params.userId)
+  .then((user) => {
+    if(!user) {
+      return res.json({
+        message:"Invalid username"
+      })
+    }
+    
+    else{
+      return res.json({user}) 
+    }
+  })
+  })
+  
+
 router.get("/getUsername", checkAuth, (req,res)=>{
   res.json({isLoggedIn:true,name:req.user.name, age:req.user.age, email:req.user.email})
 })

@@ -9,6 +9,7 @@ const jwt = require("jsonwebtoken");
 const Doctor = require("../models/doctorProfile");
 const Appointment = require("../models/appointment");
 const checkAuthDoctor = require("../controllers/checkAuthDoctor") ;
+const appointment = require("../models/appointment");
 // @route   Post api/user
 // @desc    Register USer
 // @access  Public
@@ -189,6 +190,27 @@ router.get("/listAppointments",checkAuthDoctor, (req, res) => {
       }
     })
   })
+
+router.post('/deleteAppointment/:appId',(req,res)=>{
+    
+
+    try{
+      console.log(req.params.appId);
+      Appointment.findByIdAndDelete(req.params.appId,(err,doc)=>{
+        if(err){
+          console.log(err);
+        }
+        else{
+          console.log(doc);
+        }
+      })
+      return res.json({message:"Deleted appointment"}); 
+    }
+    catch(err){
+      return res.json({message:err}); 
+    }
+    
+})
 
 module.exports = router;
 

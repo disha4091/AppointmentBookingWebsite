@@ -1,8 +1,18 @@
 import React from 'react'
+import { useNavigate } from 'react-router' ;
+import homepageIcon from '../images/homepageIcon.png'
 
 const DocDashboard = () => {
+
+  const navigate = useNavigate() ;
+  const logout = () => {
+    localStorage.removeItem('token') ;
+    navigate('/') ;
+  }
+
+
   return (
-<div>
+<div className='gradient-background'>
     <nav class="navbar navbar-expand-lg bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">HealthFirst</a>
@@ -21,7 +31,7 @@ const DocDashboard = () => {
                 <a class="nav-link active" aria-current="page" href="/profiledoc">Profile</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Logout</a>
+                <a class="nav-link active" aria-current="page" href="#" onClick={logout}>Logout</a>
                 </li>
             </ul>
             
@@ -29,6 +39,22 @@ const DocDashboard = () => {
         </div>
     </nav>
 
+    <div className='row '>
+        <div className='col text-center homepageCon'>
+            <img src={homepageIcon}/>
+        </div>
+
+        <div className='col heading3 text-left'>
+            <h3 classname="">
+              ✔Find Doctors.
+              <br></br><br></br>
+              ✔Easy appointment booking.
+              <br></br><br></br>
+              ✔No more waiting in queues.
+              
+            </h3>
+        </div>
+    </div>
 
 </div>
   )
